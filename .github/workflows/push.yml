@@ -25,12 +25,12 @@ jobs:
           cd /d "C:\PortableGit-2.38.1-64-bit\" &&^
           dir
         
-      - name: curl libexpat
+      - name: curl glm
         shell: cmd
         run: |
-          curl https://github.com/dirkarnez/libexpat-prebuilt/releases/download/v2.4.9/libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -L --output libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip &&^
-          7z.exe x libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -o"C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
-          cd /d "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          curl https://github.com/dirkarnez/glm-prebuilt/releases/download/cfc8f4bb442b9540969f2f3f351c4960d91bca17a/glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -L --output glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip &&^
+          7z.exe x glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -o"C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          cd /d "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
           dir
           
       - name: curl 
@@ -40,9 +40,9 @@ jobs:
           C:\doxygen-1.9.6.windows.x64.bin;^
           C:\PortableGit-2.38.1-64-bit\bin;^
           C:\PortableGit-2.38.1-64-bit\usr\bin;
-          cd /d "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          cd /d "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
           doxygen.exe -g doxyfile &&^
-          sed.exe -i "s/^PROJECT_NAME.*=.*$/PROJECT_NAME=\"libexpat\"/g" ./doxyfile &&^
+          sed.exe -i "s/^PROJECT_NAME.*=.*$/PROJECT_NAME=\"glm\"/g" ./doxyfile &&^
           sed.exe -i "s/^OUTPUT_DIRECTORY.*=.*$/OUTPUT_DIRECTORY=\./g" ./doxyfile &&^
           sed.exe -i "s/^EXTRACT_ALL.*=.*$/EXTRACT_ALL=YES/g" ./doxyfile &&^
           sed.exe -i "s/^INPUT.*=.*$/INPUT=\./g" ./doxyfile &&^
@@ -53,10 +53,10 @@ jobs:
           
       - shell: cmd
         run: |
-          rmdir /s /q "${{ github.event.repository.name }}/libexpat" ||^
-          mkdir "${{ github.event.repository.name }}/libexpat" &&^
-          xcopy /E /H /Y /C "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\html\*" ^
-          "${{ github.event.repository.name }}/libexpat"
+          rmdir /s /q "${{ github.event.repository.name }}/glm" ||^
+          mkdir "${{ github.event.repository.name }}/glm" &&^
+          xcopy /E /H /Y /C "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\html\*" ^
+          "${{ github.event.repository.name }}/glm"
           
       - uses: EndBug/add-and-commit@v9
         with:
