@@ -25,7 +25,6 @@ jobs:
           cd /d "C:\PortableGit-2.38.1-64-bit\" &&^
           dir
         
-        
       - name: curl libexpat
         shell: cmd
         run: |
@@ -49,6 +48,7 @@ jobs:
           sed.exe -i "s/^INPUT.*=.*$/INPUT=\./g" ./doxyfile &&^
           sed.exe -i "s/^RECURSIVE.*=.*$/RECURSIVE=YES/g" ./doxyfile &&^
           sed.exe -i "s/^GENERATE_LATEX.*=.*$/GENERATE_LATEX=NO/g" ./doxyfile &&^
+          doxygen.exe ./doxyfile
           dir
           
       - shell: cmd
