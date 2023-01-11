@@ -25,24 +25,24 @@ jobs:
           cd /d "C:\PortableGit-2.38.1-64-bit\" &&^
           dir
         
-      - name: curl glm
+      - name: curl package
         shell: cmd
         run: |
-          curl https://github.com/dirkarnez/glm-prebuilt/releases/download/cfc8f4bb442b9540969f2f3f351c4960d91bca17a/glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -L --output glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip &&^
-          7z.exe x glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -o"C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
-          cd /d "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          curl https://github.com/dirkarnez/hiredis-prebuilt/releases/download/v1.1.0/hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -L --output hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0.zip &&^
+          7z.exe x hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -o"C:\hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          cd /d "C:\hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
           dir
           
-      - name: curl 
+      - name: do generation 
         shell: cmd
         run: |
           set PATH=^
           C:\doxygen-1.9.6.windows.x64.bin;^
           C:\PortableGit-2.38.1-64-bit\bin;^
           C:\PortableGit-2.38.1-64-bit\usr\bin;
-          cd /d "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          cd /d "C:\hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
           doxygen.exe -g doxyfile &&^
-          sed.exe -i "s/^PROJECT_NAME.*=.*$/PROJECT_NAME=\"glm\"/g" ./doxyfile &&^
+          sed.exe -i "s/^PROJECT_NAME.*=.*$/PROJECT_NAME=\"hiredis\"/g" ./doxyfile &&^
           sed.exe -i "s/^OUTPUT_DIRECTORY.*=.*$/OUTPUT_DIRECTORY=\./g" ./doxyfile &&^
           sed.exe -i "s/^EXTRACT_ALL.*=.*$/EXTRACT_ALL=YES/g" ./doxyfile &&^
           sed.exe -i "s/^INPUT.*=.*$/INPUT=\./g" ./doxyfile &&^
@@ -53,9 +53,9 @@ jobs:
           
       - shell: cmd
         run: |
-          rmdir /s /q "${{ github.event.repository.name }}/glm" ||^
-          mkdir "${{ github.event.repository.name }}/glm" &&^
-          xcopy /E /H /Y /C "C:\glm-cfc8f4bb442b9540969f2f3f351c4960d91bca17a-mingw64-x86_64-posix-seh-rev0-8.1.0\html\*" ^
+          rmdir /s /q "${{ github.event.repository.name }}/hiredis" ||^
+          mkdir "${{ github.event.repository.name }}/hiredis" &&^
+          xcopy /E /H /Y /C "C:\hiredis-v1.1.0-mingw64-x86_64-posix-seh-rev0-8.1.0\html\*" ^
           "${{ github.event.repository.name }}/glm"
           
       - uses: EndBug/add-and-commit@v9
