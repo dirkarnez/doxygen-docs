@@ -1,0 +1,59 @@
+name: doxygen-docs-actions-workflow
+on: push
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ${{ github.event.repository.name }}
+          
+      - name: curl doxygen
+        shell: cmd
+        run: |
+          curl https://github.com/doxygen/doxygen/releases/download/Release_1_9_6/doxygen-1.9.6.windows.x64.bin.zip -L --output doxygen-1.9.6.windows.x64.bin.zip &&^
+          7z.exe x doxygen-1.9.6.windows.x64.bin.zip -o"C:\doxygen-1.9.6.windows.x64.bin\" &&^
+          cd /d "C:\doxygen-1.9.6.windows.x64.bin\" &&^
+          dir
+          
+      - name: curl PortableGit-2.38.1-64-bit.7z.exe
+        shell: cmd
+        run: |
+          curl https://github.com/git-for-windows/git/releases/download/v2.38.1.windows.1/PortableGit-2.38.1-64-bit.7z.exe -L --output PortableGit-2.38.1-64-bit.7z.exe &&^
+          7z.exe x PortableGit-2.38.1-64-bit.7z.exe -o"C:\PortableGit-2.38.1-64-bit\" &&^
+          cd /d "C:\PortableGit-2.38.1-64-bit\" &&^
+          dir
+        
+        
+      - name: curl libexpat
+        shell: cmd
+        run: |
+          curl https://github.com/dirkarnez/libexpat-prebuilt/releases/download/v2.4.9/libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -L --output libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip &&^
+          7z.exe x libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0.zip -o"C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          cd /d "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          dir
+          
+      - name: curl 
+        shell: cmd
+        run: |
+          set PATH=^
+          C:\doxygen-1.9.6.windows.x64.bin;^
+          C:\PortableGit-2.38.1-64-bit\bin;^
+          C:\PortableGit-2.38.1-64-bit\usr\bin;
+          cd /d "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\" &&^
+          doxygen.exe -g doxyfile &&^
+          sed.exe -i "s/^PROJECT_NAME.*=.*$/PROJECT_NAME=\"libexpat\"/g" ./doxyfile &&^
+          sed.exe -i "s/^OUTPUT_DIRECTORY.*=.*$/OUTPUT_DIRECTORY=\./g" ./doxyfile &&^
+          sed.exe -i "s/^EXTRACT_ALL.*=.*$/EXTRACT_ALL=YES/g" ./doxyfile &&^
+          sed.exe -i "s/^INPUT.*=.*$/INPUT=\./g" ./doxyfile &&^
+          sed.exe -i "s/^RECURSIVE.*=.*$/RECURSIVE=YES/g" ./doxyfile &&^
+          sed.exe -i "s/^GENERATE_LATEX.*=.*$/GENERATE_LATEX=NO/g" ./doxyfile &&^
+          dir
+          
+      - shell: cmd
+        run: cp -r C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\html\* ${{ github.event.repository.name }}/libexpat
+        
+      - uses: EndBug/add-and-commit@v9
+        with:
+          cwd: ${{ github.event.repository.name }}
