@@ -52,8 +52,12 @@ jobs:
           dir
           
       - shell: cmd
-        run: cp -r C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\html\* ${{ github.event.repository.name }}/libexpat
-        
+        run: |
+          rmdir /s /y "${{ github.event.repository.name }}/libexpat" ||^
+          mkdir "${{ github.event.repository.name }}/libexpat" &&^
+          xcopy /E /H /Y /C "C:\libexpat-v2.4.9-mingw64-x86_64-posix-seh-rev0-8.1.0\html\*" ^
+          "${{ github.event.repository.name }}/libexpat"
+          
       - uses: EndBug/add-and-commit@v9
         with:
           cwd: ${{ github.event.repository.name }}
